@@ -1,7 +1,8 @@
 @use 'inpUtils';
 
 .input {
-    @include inpUtils.input();
     color: $text;
     padding: inpUtils.$padding;
+
+    @include inpUtils.input();
 }
