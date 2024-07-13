@@ -1,4 +1,4 @@
-import env from '$env/static/public'
+import { PUBLIC_APP_API_LOC } from '$env/static/public'
 
 export enum CorrectMode {
     GOOD,
@@ -56,7 +56,7 @@ export function apiCtx(fetchFunc = fetch, url = new URL(location as unknown as s
 }
 
 async function apiCall(method: string, path: string, data?: Record<string, unknown>, { fetch } = apiCtx()): Promise<Record<string, unknown>> {
-    const resp = await fetch(`${env.PUBLIC_APP_API_LOC ?? "/api"}${path}`, {
+    const resp = await fetch(`${PUBLIC_APP_API_LOC ?? "/api"}${path}`, {
         method,
         body: data ? JSON.stringify(data) : "{}",
         headers: {
