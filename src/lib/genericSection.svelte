@@ -1,0 +1,44 @@
+<script lang="ts">
+	import { createEventDispatcher, SvelteComponent, type ComponentType } from "svelte";
+	import { nextSection, SectionType, type Section, type SectionResp } from "./api";
+	import Slide from "./sections/slide.svelte";
+	import Question from "./sections/question.svelte";
+    import './input.scss';
+
+    const dispatch = createEventDispatcher<{ next: SectionResp }>()
+    export let section: Section
+    
+    type NextEv = CustomEvent<string | null>
+    type SectionComp = ComponentType<SvelteComponent<{ data: Section }, { next: NextEv }>>
+
+    function mkInp(s: Section): SectionComp | null {
+        console.log("INPUT MADE IS GOOD", section.type)
+        switch (s.type) {
+            case SectionType.SLIDE:
+                return Slide as SectionComp
+            case SectionType.QUESTION:
+                return Question as SectionComp
+        }
+
+        return null
+    }
+
+    async function next({ detail: ans }: NextEv) {
+        const resp = await nextSection(section.id, ans || undefined)
+
+        dispatch("next", resp)
+    }
+</script>
+
+<h1 class="heading">{section.title}</h1>
+
+<svelte:component
+    this={mkInp(section)} data={section}
+    on:next={next}
+/>
+
+<style lang="scss">
+    h1 {
+        font-size: 3rem;
+    }
+</style>
