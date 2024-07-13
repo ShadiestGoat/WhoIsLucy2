@@ -16,6 +16,7 @@ $padding: $paddingVert $paddingHorz;
     box-shadow: none;
     cursor: pointer;
     position: absolute;
+    outline: none;
     bottom: section.$sectionPad + 15dvh;
 
     &:hover, &:focus-within {

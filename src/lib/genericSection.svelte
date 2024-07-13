@@ -4,6 +4,7 @@
 	import Slide from "./sections/slide.svelte";
 	import Question from "./sections/question.svelte";
     import './input.scss';
+    import './section.scss';
 
     const dispatch = createEventDispatcher<{ next: SectionResp }>()
     export let section: Section

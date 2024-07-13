@@ -1,8 +1,8 @@
-@use 'inpUtils';
+@use 'scss/input';
 
 .input {
     color: $text;
-    padding: inpUtils.$padding;
+    padding: input.$padding;
 
-    @include inpUtils.input();
+    @include input.input();
 }

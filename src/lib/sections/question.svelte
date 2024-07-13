@@ -20,12 +20,13 @@
 </script>
 
 <div class="input">
-    <input type="text" placeholder="Your answer" bind:value={ans} on:keydown={onKeyDown} />
+    <!-- svelte-ignore a11y-autofocus -->
+    <input type="text" autofocus placeholder="Your answer" bind:value={ans} on:keydown={onKeyDown} />
 </div>
 
 <style lang="scss">
     @use 'sass:math';
-    @use '../inpUtils';
+    @use '../scss/input';
 
     .input {
         padding: 0;
@@ -34,6 +35,6 @@
     input {
         background: none;
         border: none;
-        padding: inpUtils.$padding;
+        padding: input.$padding;
     }
 </style>
