@@ -74,7 +74,7 @@
     }
 
     .section {
-        padding: section.$sectionPad 2vh;
+        padding: $gVertPad 2vh;
 
         align-items: center;
         flex-grow: 1;
