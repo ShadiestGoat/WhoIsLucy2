@@ -7,7 +7,7 @@
     let section = data.section
     let transitionClass = ""
 
-    function doTransition(cm: CorrectMode) {
+    function doInnerLight(cm: CorrectMode) {
         if (transitionClass != "") {
             return
         }
@@ -32,7 +32,7 @@
             return
         }
 
-        doTransition(data.transitionMode)
+        doInnerLight(data.transitionMode)
 
         if (data.next) {
             section = data.next
