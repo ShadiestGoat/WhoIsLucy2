@@ -26,7 +26,8 @@
 
 <style lang="scss">
     @use 'sass:math';
-    @use '../scss/input';
+    @use '../scss/input' as *;
+    @use '../scss/mods/input';
 
     .input {
         padding: 0;

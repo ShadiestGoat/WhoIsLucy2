@@ -32,6 +32,8 @@
 </button>
 
 <style lang="scss">
+    @use "../scss/input";
+
     h2 {
         margin-top: 3vh;
     }

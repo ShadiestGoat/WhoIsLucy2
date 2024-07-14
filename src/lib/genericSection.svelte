@@ -3,8 +3,6 @@
 	import { nextSection, SectionType, type Section, type SectionResp } from "./api";
 	import Slide from "./sections/slide.svelte";
 	import Question from "./sections/question.svelte";
-    import './input.scss';
-    import './section.scss';
 
     const dispatch = createEventDispatcher<{ next: SectionResp }>()
     export let section: Section
@@ -39,6 +37,8 @@
 />
 
 <style lang="scss">
+    @use './scss/section';
+
     h1 {
         font-size: 3rem;
     }

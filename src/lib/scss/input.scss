@@ -1,4 +1,5 @@
-@use 'scss/input';
+@use 'src/variables' as *;
+@use 'mods/input';
 
 .input {
     color: $text;

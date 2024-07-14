@@ -52,8 +52,7 @@
 
 <style lang="scss">
     // Autocomplete help... I know about $lib lmao
-    @use '../../lib/scss/section';
-    @use '../../lib/scss/trans';
+    @use '../../lib/scss/mods/trans';
 
     h2 {
         margin-left: 5px;

@@ -1,5 +1,4 @@
 @use "src/variables.scss" as *;
-@use 'section';
 @use 'trans';
 
 $paddingVert: 2vh;
@@ -17,7 +16,7 @@ $padding: $paddingVert $paddingHorz;
     cursor: pointer;
     position: absolute;
     outline: none;
-    bottom: section.$sectionPad + 15dvh;
+    bottom: $gVertPad + 15dvh;
 
     &:hover, &:focus-within {
         transform: scale(1.1);
