@@ -3,6 +3,8 @@
 	import type { SectionQuestion } from "../api";
 
     const dispatch = createEventDispatcher<{ next: string }>()
+ 
+    // svelte-ignore unused-export-let
     export let data: SectionQuestion
 
     let ans = ""
