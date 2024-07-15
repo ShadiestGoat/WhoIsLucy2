@@ -12,7 +12,7 @@
 
         for (const k of errOrder) {
             const v = err[k]
-            if (!v) {
+            if (!v || v == "<null>" || v == "undefined") {
                 continue
             }
 
