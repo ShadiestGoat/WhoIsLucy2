@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { CorrectMode, SectionType, type SectionResp } from "$lib/api";
 	import GenericSection from "$lib/genericSection.svelte";
+	import Header from "$lib/header.svelte";
     import type { PageData } from './$types';
 
     export let data: PageData
@@ -41,9 +42,7 @@
 </script>
 
 <div class="h-100 col container {transitionClass}">
-    <div class="row header w-100">
-        <h3>Who is</h3> <h2 class="primary">Lucy?</h2>
-    </div>
+    <Header />
     
     <div class="col section">
         <GenericSection bind:section={section} on:next={next} />
@@ -53,24 +52,6 @@
 <style lang="scss">
     // Autocomplete help... I know about $lib lmao
     @use '../../lib/scss/mods/trans';
-
-    h2 {
-        margin-left: 5px;
-    }
-
-    .header {
-        padding: 2vh 2vw 1vh;
-        margin-bottom: 2vh;
-        align-items: center;
-        justify-content: center;
-        border-bottom: 2px $gray-8 solid;
-        z-index: -1;
-        position: relative;
-
-        h2, h3 {
-            letter-spacing: .3rem;
-        }
-    }
 
     .section {
         padding: $gVertPad 2vh;

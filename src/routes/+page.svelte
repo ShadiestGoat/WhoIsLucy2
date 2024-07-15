@@ -5,7 +5,7 @@
 <div class="w-100 container">
     <h2 class="who">Who</h2>
     <div class="row">
-        <h2 class="hell ital">The Hell</h2> <h2>is</h2>
+        <h2><span class="hell ital">The Hell</span> is</h2>
     </div>
     <h1 class="ital">Lucy</h1>
 
@@ -45,14 +45,12 @@
 
     .hell {
         letter-spacing: 0.1ch;
-        color: $orange-4;
+        color: $warning;
     }
 
     h1 {
         color: $primary;
         font-size: $fsMain;
-
-
         position: relative;
         left: $centerOffset;
     }
