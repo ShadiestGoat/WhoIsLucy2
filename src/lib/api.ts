@@ -29,7 +29,7 @@ export type SectionSlide = SectionBase & {
 }
 
 export type FinaleInfo = {
-    faq: string[2][]
+    faq: [string, string][]
     essay: string
 }
 
