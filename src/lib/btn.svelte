@@ -4,7 +4,7 @@
 
     const dispatch = createEventDispatcher<{ submit: null }>()
     function submit(e: AnyInputEvent) {
-		if (!shouldContinueEvent(e, true)) {
+		if (!shouldContinueEvent(e)) {
 			return
 		}
 
@@ -14,11 +14,12 @@
     export let text: string
     export let autofocus = true
     export let href = ""
+    export let disable = false
 </script>
 
 {#if href}
     <!-- svelte-ignore a11y-autofocus -->
-    <a {href} class="input" {autofocus}>{text}</a>
+    <a href={disable ? "" : href} aria-disabled={disable} class="input" {autofocus}>{text}</a>
 {:else}
     <!-- svelte-ignore a11y-autofocus -->
     <button
@@ -26,6 +27,8 @@
         type="button"
         tabindex="0"
         {autofocus}
+        disabled={disable}
+        aria-disabled={disable}
         on:click={submit}
         on:keypress={submit}
     >
