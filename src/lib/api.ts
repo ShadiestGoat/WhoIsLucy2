@@ -1,5 +1,5 @@
 import { PUBLIC_APP_API_LOC } from '$env/static/public'
-import { error, type ServerLoadEvent } from '@sveltejs/kit'
+import { error, redirect, type ServerLoadEvent } from '@sveltejs/kit'
 import { getContext } from 'svelte'
 import toast, { type ToastOptions } from 'svelte-french-toast'
 
@@ -138,6 +138,10 @@ export class ServerSideAPI extends API<true> {
         const key = url.searchParams.get("key") ?? cookies.get("key")
 
         super(fetch, key ?? "", true, function (status, msg, body, err) {
+            if (status == 401) {
+                redirect(307, "/quiz?err=401")
+            }
+
             error(status, {
                 message: msg,
                 status,

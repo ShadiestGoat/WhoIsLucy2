@@ -2,11 +2,29 @@
 	import { CorrectMode, SectionType, type SectionResp } from "$lib/api";
 	import GenericSection from "$lib/genericSection.svelte";
 	import Header from "$lib/header.svelte";
+	import { onMount } from "svelte";
     import type { PageData } from './$types';
+	import toast from "svelte-french-toast";
 
     export let data: PageData
     let section = data.section
     let transitionClass = ""
+
+    onMount(() => {
+        const params = new URLSearchParams(location.search)
+        const err = params.get("err")
+        if (!err) {
+            return
+        }
+
+        switch (err) {
+            case "401":
+                toast.error("Looks like your secret is invalid/expired.\nTry again!")
+                break
+        }
+
+        window.history.replaceState({}, "", "/quiz");
+    })
 
     function doInnerLight(cm: CorrectMode) {
         if (transitionClass != "") {
