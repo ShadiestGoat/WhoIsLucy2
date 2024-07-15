@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher, SvelteComponent, type ComponentType } from "svelte";
-	import { nextSection, SectionType, type Section, type SectionResp } from "./api";
+	import { getClientSideAPI, SectionType, type Section, type SectionResp } from "./api";
 	import Slide from "./sections/slide.svelte";
 	import Question from "./sections/question.svelte";
 
@@ -9,6 +9,7 @@
     
     type NextEv = CustomEvent<string | null>
     type SectionComp = ComponentType<SvelteComponent<{ data: Section }, { next: NextEv }>>
+    const api = getClientSideAPI()
 
     function mkInp(s: Section): SectionComp | null {
         console.log("INPUT MADE IS GOOD", section.type)
@@ -23,7 +24,10 @@
     }
 
     async function next({ detail: ans }: NextEv) {
-        const resp = await nextSection(section.id, ans || undefined)
+        const resp = await api.nextSection(section.id, ans || undefined)
+        if (!resp) {
+            return
+        }
 
         dispatch("next", resp)
     }

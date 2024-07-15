@@ -1,4 +1,6 @@
 import { PUBLIC_APP_API_LOC } from '$env/static/public'
+import { error, type ServerLoadEvent } from '@sveltejs/kit'
+import { getContext } from 'svelte'
 
 export enum CorrectMode {
     GOOD,
@@ -48,55 +50,115 @@ export type SectionResp = {
     transitionMode: CorrectMode
 }
 
-export function apiCtx(fetchFunc = fetch, url = new URL(location as unknown as string)): { fetch: typeof fetch, url: URL } {
-    return {
-        fetch: fetchFunc,
-        url,
-    }
-}
+export type Obj = Record<string, unknown>
 
-async function apiCall(method: string, path: string, data?: Record<string, unknown>, { fetch } = apiCtx()): Promise<Record<string, unknown>> {
-    const resp = await fetch(`${PUBLIC_APP_API_LOC ?? "/api"}${path}`, {
-        method,
-        body: data ? JSON.stringify(data) : "{}",
-        headers: {
-            'Content-Type': 'application/json'
+type APIResp<T> = T | null
+type DebugResp<T> = { status: number, resp: T }
+type FinResp<Resp, Debug extends boolean> = Debug extends true ? DebugResp<APIResp<Resp>> : APIResp<Resp>
+
+export type APIErrHandler = (status: number, msg: string, body: string, err?: unknown) => void
+
+class API<Debug extends true | false = false> {
+    private fetch: typeof fetch
+    private handleErr: APIErrHandler
+    key: string
+    debug: Debug
+
+    constructor(fetchFunc: typeof fetch, key: string, debug: Debug, handleErr: APIErrHandler) {
+        this.fetch = fetchFunc
+        this.key = key
+        this.handleErr = handleErr
+        this.debug = debug
+    }
+
+    private async rawAPI<T extends Obj>(method: string, path: string, data?: Record<string, unknown>): Promise<FinResp<T, Debug>> {
+        let resp: Response
+
+        try {
+            resp = await this.fetch(`${PUBLIC_APP_API_LOC ?? "/api"}${path}`, {
+                method,
+                body: data ? JSON.stringify(data) : undefined,
+                headers: data ? {'Content-Type': 'application/json'} : undefined,
+            })
+        } catch (err) {
+            this.handleErr(500, "Failed to fetch", "<null>", `${err}`)
+            return (this.debug ? {status: 500, resp: null } : null) as FinResp<T, Debug>
         }
-    })
 
-    let body: Record<string, unknown> | null
+        let rawBody: string | null = null
+        let body: T | null = null
 
-    try {
-        body = await resp.json()
-    } catch {
-        console.error("Failed to parse body as JSON!")
-        body = null
-    }
+        const doResp = (respBody: APIResp<T>) => {
+            return (this.debug ? { status: resp.status, resp: respBody } : respBody) as FinResp<T, Debug>
+        }
+
+        const handleErr = (msg: string, err?: unknown) => {
+            this.handleErr(resp.status, msg, rawBody ?? "<null>", `${err}`)
+            return doResp(null)
+        }
     
-    if (!body || typeof body != "object") {
-        throw `Unexpected body: (status: ${resp.status})`
+        try {
+            rawBody = await resp.text()
+        } catch (err) {
+            return handleErr("Can't read body", err)
+        }
+
+        try {
+            body = JSON.parse(rawBody)
+        } catch {
+            return handleErr("Can't parse body as JSON", rawBody)
+        }
+        
+        if (!body || typeof body != "object") {
+            return handleErr("Unexpected body: not an obj")
+        }
+    
+        if (resp.status == 200) {
+            return doResp(body)
+        }
+    
+        if (body.error) {
+            return handleErr(`API Exception: ${body.error}`)
+        }
+
+        return handleErr(`Unknown API Exception`)
     }
 
-    if (resp.status == 200) {
-        return body
+    async nextSection(currentSection: string, answer = "") {
+        return this.rawAPI<SectionResp>("POST", "/", { currentSection, answer, key: this.key })
     }
-
-    if (body.error) {
-        throw `API Exception: ${body.error}`
+    async getFinale(secret: string) {
+        return this.rawAPI<FinaleInfo>("POST", "/finale", { finaleSecret: secret })
     }
-
-    throw `Unknown API Exception: ${resp.status}`
 }
 
-function getKey(url: URL) {
-    return (new URLSearchParams(url.search)).get("key")
+export class ServerSideAPI extends API<true> {
+    constructor({ fetch, cookies, url }: ServerLoadEvent) {
+        const key = url.searchParams.get("key") ?? cookies.get("key")
+
+        super(fetch, key ?? "", true, function (status, msg, body, err) {
+            error(status, {
+                message: msg,
+                status,
+                jsErr: err,
+                rawBody: body
+            })
+        })
+    }
 }
 
-export async function nextSection(currentSection: string, answer = "", ctx = apiCtx()): Promise<SectionResp> {
-    return apiCall("POST", "/", { currentSection, answer, key: getKey(ctx.url) }, ctx) as Promise<SectionResp>
+export class ClientSideAPI extends API {
+    constructor(key: string) {
+        super(fetch, key, false, function (status, msg, body, err) {
+            // TODO:
+        })
+    }
 }
 
-export async function getFinale(secret: string, ctx = apiCtx()): Promise<FinaleInfo> {
-    return apiCall("POST", "/finale", { finaleSecret: secret }, ctx) as Promise<FinaleInfo>
+/** Gets client side API instance.
+ * 
+ * MUST BE CALLED AT COMPONENT INIT!!
+ */
+export function getClientSideAPI(): ClientSideAPI {
+    return getContext("API")
 }
-
