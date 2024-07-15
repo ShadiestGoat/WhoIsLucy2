@@ -9,6 +9,11 @@
     setContext("API", api)
 
     onMount(() => {
+        if ($page.route.id?.startsWith("/finale")) {
+            // Finale does this need keys updated
+            return
+        }
+
         const searchParams = new URLSearchParams(location.search)
         let key = searchParams.get("key")
         if (key) {
