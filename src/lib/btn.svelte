@@ -13,24 +13,34 @@
 
     export let text: string
     export let autofocus = true
+    export let href = ""
 </script>
 
-<!-- svelte-ignore a11y-autofocus -->
-<button
-    class="input"
-    type="button"
-    tabindex="0"
-    {autofocus}
-    on:click={submit}
-    on:keypress={submit}
->
-    <p>{text}</p>
-</button>
+{#if href}
+    <!-- svelte-ignore a11y-autofocus -->
+    <a {href} class="input" {autofocus}>{text}</a>
+{:else}
+    <!-- svelte-ignore a11y-autofocus -->
+    <button
+        class="input"
+        type="button"
+        tabindex="0"
+        {autofocus}
+        on:click={submit}
+        on:keypress={submit}
+    >
+        <p>{text}</p>
+    </button>
+{/if}
 
 <style lang="scss">
     @use './scss/input';
 
-    p {
+    p, a {
         font-size: 1rem;
+    }
+
+    a {
+        text-decoration: none;
     }
 </style>
