@@ -10,7 +10,7 @@
     let ans = ""
 
     function onKeyDown(e:KeyboardEvent) {
-        if (e.key != "Enter") {
+        if (e.key != "Enter" || !ans) {
             return
         }
 
@@ -18,7 +18,6 @@
 
         ans = ""
     }
-
 </script>
 
 <div class="input">
