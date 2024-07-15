@@ -5,14 +5,15 @@
 	import { onMount } from "svelte";
     import type { PageData } from './$types';
 	import toast from "svelte-french-toast";
+	import { page } from "$app/stores";
+	import { replaceState } from "$app/navigation";
 
     export let data: PageData
     let section = data.section
     let transitionClass = ""
 
     onMount(() => {
-        const params = new URLSearchParams(location.search)
-        const err = params.get("err")
+        const err = $page.url.searchParams.get("err")
         if (!err) {
             return
         }
@@ -23,7 +24,7 @@
                 break
         }
 
-        window.history.replaceState({}, "", "/quiz");
+        replaceState("/quiz", $page.state);
     })
 
     function doInnerLight(cm: CorrectMode) {

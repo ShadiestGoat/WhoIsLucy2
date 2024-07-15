@@ -1,39 +1,42 @@
 <script lang="ts">
-	import { onMount, setContext } from "svelte";
+	import { onMount, setContext, tick } from "svelte";
     import "../app.scss";
 	import '@fontsource/roboto';
 	import '@fontsource/noto-color-emoji';
     import { ClientSideAPI } from "$lib/api"
     import toast, { Toaster } from "svelte-french-toast"
     import { page } from "$app/stores"
+    import { replaceState } from "$app/navigation"
+	import type { LayoutData } from "./$types";
 
-    let api = new ClientSideAPI("")
+    export let data: LayoutData
+    let api = new ClientSideAPI(data.key)
 
     setContext("API", api)
 
-    onMount(() => {
+    onMount(async () => {
+        (async () => {
+            const searchParams = $page.url.searchParams
+            if (!searchParams.get("key")) {
+                return
+            }
+
+            searchParams.delete("key")
+            const newParams = searchParams.toString()
+
+            await tick()
+            replaceState($page.url.toString().split("?")[0] + (newParams ? "?" + newParams : ""), $page.state);
+        })()
+
         if ($page.route.id?.startsWith("/finale")) {
             // Finale does this need keys updated
             return
         }
 
-        const searchParams = new URLSearchParams(location.search)
-        let key = searchParams.get("key")
-        if (key) {
-            document.cookie = "key=" + encodeURIComponent(key)
-        } else {
-            const keyCookie = document.cookie.split("; ").find((v) => v.split("=")[0] == "key")
-            if (keyCookie && keyCookie.split("=").length == 2) {
-                key = decodeURIComponent(keyCookie.split("=")[1])
-            } else {
-                toast("You don't have a key!\nDid you use your special link?", {
-                    icon: "⚠",
-                })
-            }
-        }
-
-        if (key) {
-            api.key = key
+        if (!api.key) {
+            toast("You don't have a key!\nDid you use your special link?", {
+                icon: "⚠",
+            })
         }
     })
 </script>
