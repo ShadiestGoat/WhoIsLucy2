@@ -24,7 +24,6 @@ body {
 a,
 p,
 h1,
-
 h2,
 h3,
 h4,
@@ -36,6 +35,13 @@ h6 {
 	font-weight: bold;
 	line-height: 1.1;
 	font-family: 'Roboto';
+}
+
+.toast {
+	font-family: 'Roboto', 'Noto Color Emoji';
+	background: $gray-8 !important;
+	color: $text !important;
+	border: 2px solid $gray-7;
 }
 
 input,

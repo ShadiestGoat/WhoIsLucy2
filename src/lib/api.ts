@@ -1,6 +1,7 @@
 import { PUBLIC_APP_API_LOC } from '$env/static/public'
 import { error, type ServerLoadEvent } from '@sveltejs/kit'
 import { getContext } from 'svelte'
+import toast, { type ToastOptions } from 'svelte-french-toast'
 
 export enum CorrectMode {
     GOOD,
@@ -149,8 +150,18 @@ export class ServerSideAPI extends API<true> {
 
 export class ClientSideAPI extends API {
     constructor(key: string) {
-        super(fetch, key, false, function (status, msg, body, err) {
-            // TODO:
+        super(fetch, key, false, (status, msg, body, err) => {
+            const opts: ToastOptions = {
+                position: "bottom-right",
+            }
+
+            if (!this.key && status == 401) {
+                toast.error("Not Authorized...\nDid you use your special link?", opts)
+                return
+            }
+
+            console.error(status, msg, body, err)
+            toast.error(msg, opts)
         })
     }
 }

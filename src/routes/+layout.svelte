@@ -2,7 +2,10 @@
 	import { onMount, setContext } from "svelte";
     import "../app.scss";
 	import '@fontsource/roboto';
+	import '@fontsource/noto-color-emoji';
     import { ClientSideAPI } from "$lib/api"
+    import toast, { Toaster } from "svelte-french-toast"
+    import { page } from "$app/stores"
 
     let api = new ClientSideAPI("")
 
@@ -23,7 +26,9 @@
             if (keyCookie && keyCookie.split("=").length == 2) {
                 key = decodeURIComponent(keyCookie.split("=")[1])
             } else {
-                // TODO: Make a toast abt it
+                toast("You don't have a key!\nDid you use your special link?", {
+                    icon: "⚠",
+                })
             }
         }
 
@@ -32,6 +37,10 @@
         }
     })
 </script>
+
+<Toaster toastOptions={{
+    className: "toast",
+}} />
 
 <div class="container col">
     <slot />
