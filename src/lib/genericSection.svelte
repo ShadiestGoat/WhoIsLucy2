@@ -12,7 +12,6 @@
     const api = getClientSideAPI()
 
     function mkInp(s: Section): SectionComp | null {
-        console.log("INPUT MADE IS GOOD", section.type)
         switch (s.type) {
             case SectionType.SLIDE:
                 return Slide as SectionComp
