@@ -5,12 +5,14 @@ $paddingVert: 2vh;
 $paddingHorz: 2vw;
 
 $padding: $paddingVert $paddingHorz;
+$borderColor: $gray-8;
+$borderColorLight: $gray-7;
 
 @mixin input() {
     @include trans.trans;
 
     background: $gray-9;
-    border: $gray-8 2px solid;
+    border: $borderColor 2px solid;
     border-radius: 12.25px;
     box-shadow: none;
     cursor: pointer;
@@ -20,8 +22,8 @@ $padding: $paddingVert $paddingHorz;
 
     &:hover, &:focus-within {
         transform: scale(1.1);
-        box-shadow: 0px 0px 12px 7px $gray-8;
-        border-color: $gray-7;
-        background: $gray-8;
+        box-shadow: 0px 0px 12px 7px $borderColor;
+        border-color: $borderColorLight;
+        background: $borderColor;
     }
 }
