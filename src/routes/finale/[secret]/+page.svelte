@@ -97,7 +97,6 @@
 
         :global(.btn) {
             padding: math.div(input.$paddingVert, 2) math.div(input.$paddingHorz, 2);
-            bottom: auto;
             top: h.$padTop + h.$padBot + h.$marBot + 3vh;
             right: h.$padSide;
             z-index: 10;

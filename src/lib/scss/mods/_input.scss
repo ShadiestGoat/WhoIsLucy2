@@ -18,7 +18,6 @@ $borderColorLight: $gray-7;
     cursor: pointer;
     position: absolute;
     outline: none;
-    bottom: $gVertPad + 15dvh;
 
     &:hover, &:focus-within {
         transform: scale(1.1);
