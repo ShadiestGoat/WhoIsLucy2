@@ -4,6 +4,7 @@
 	import toast from "svelte-french-toast";
 	import Header from "$lib/header.svelte";
 	import Btn from "$lib/btn.svelte";
+	import FinHeader from "$lib/finale/utils/finHeader.svelte";
 
     export let data: PageData
 
@@ -21,6 +22,8 @@
     }
 
     let collapse = false
+
+    let isFAQ = hasFAQ
 </script>
 
 <Header />
@@ -44,6 +47,8 @@
         <p class="url">{$page.url}</p>
     </div>
 </div>
+
+<FinHeader hasBoth={hasFAQ && hasEssay} bind:isFAQ={isFAQ} />
 
 <style lang="scss">
     @use "../../../lib/scss/input.scss" as *;
