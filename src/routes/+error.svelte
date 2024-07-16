@@ -54,7 +54,7 @@
         padding: 2dvh 2dvw;
         margin-top: 5dvh;
 
-        width: 50dvw;
+        width: $maxWidth;
         gap: 2dvh 3dvw;
 
         background: $gray-9;

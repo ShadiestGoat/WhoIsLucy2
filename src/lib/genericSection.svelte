@@ -32,7 +32,7 @@
     }
 </script>
 
-<h1 class="heading">{section.title}</h1>
+<h1 class="heading wrap-words">{section.title}</h1>
 
 <svelte:component
     this={mkInp(section)} data={section}

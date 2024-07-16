@@ -8,7 +8,7 @@
 </script>
 
 {#if data.slide.subTitle}
-    <h2 class="heading">{data.slide.subTitle}</h2>
+    <h2 class="heading wrap-words">{data.slide.subTitle}</h2>
 {/if}
 
 <Btn text={data.slide.nextText} on:submit={() => dispatch('next', null)} />

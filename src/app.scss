@@ -7,8 +7,9 @@
 }
 
 .wrap-words {
+	max-width: $maxWidth;
 	word-break: break-word;
-	white-space: break-spaces;
+	text-align: center;
 }
 
 body {
