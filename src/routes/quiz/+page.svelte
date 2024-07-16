@@ -7,6 +7,7 @@
 	import toast from "svelte-french-toast";
 	import { page } from "$app/stores";
 	import { replaceState } from "$app/navigation";
+	import { fly, slide } from "svelte/transition";
 
     export let data: PageData
     let section = data.section
@@ -63,17 +64,30 @@
 <div class="h-100 col container {transitionClass}">
     <Header />
     
-    <div class="col section">
-        <GenericSection bind:section={section} on:next={next} />
-    </div>
+    {#key section}
+        <div in:fly={{
+            duration: 1_000,
+            x: "-100dvw"
+        }} out:fly={{
+            duration: 1_000,
+            x: "100dvw"
+        }} class="col section w-100">
+            <GenericSection section={section} on:next={next} />
+        </div>
+    {/key}
 </div>
 
 <style lang="scss">
     // Autocomplete help... I know about $lib lmao
     @use '../../lib/scss/mods/trans';
+    @use '../../lib/scss/mods/header' as h;
 
     .section {
         padding: $gVertPad 2vh;
+        height: 100dvh - h.$totalHeight;
+        top: h.$totalHeight;
+
+        position: absolute;
 
         align-items: center;
         flex-grow: 1;
@@ -82,6 +96,9 @@
     .container {
         @include trans.trans;
         box-shadow: inset 0 0;
+        position: relative;
+        width: 100dvw;
+        overflow: hidden;
     }
 
     .green {

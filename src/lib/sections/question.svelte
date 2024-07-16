@@ -32,9 +32,11 @@
 
     .input {
         padding: 0;
+        @include input.botInput;
     }
 
     input {
+
         background: none;
         border: none;
         padding: input.$padding;

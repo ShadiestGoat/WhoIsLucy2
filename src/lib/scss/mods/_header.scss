@@ -1,4 +1,7 @@
-$marBot: 2vh;
-$padTop: 2vh;
-$padBot: 1vh;
-$padSide: 2vw;
+$marBot:   2dvh;
+$padTop:   2dvh;
+$padBot:   1dvh;
+$padSide:  2dvw;
+$fontSize: 3dvh;
+
+$totalHeight: $marBot + $fontSize + $padTop * 2;

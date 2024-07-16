@@ -16,6 +16,7 @@
 
         h3 {
             letter-spacing: .3ch;
+            font-size: h.$fontSize;
         }
 
         span {
