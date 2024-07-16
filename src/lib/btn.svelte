@@ -8,6 +8,9 @@
 			return
 		}
 
+        if (self) {
+            self.blur()
+        }
         dispatch('submit', null)
 	}
 
@@ -15,15 +18,20 @@
     export let autofocus = true
     export let href = ""
     export let disable = false
+    export let classes = ""
+    export const BTN_CLASS = "btn"
+
+    let self: HTMLElement
 </script>
 
 {#if href}
     <!-- svelte-ignore a11y-autofocus -->
-    <a href={disable ? "" : href} aria-disabled={disable} class="input" {autofocus}>{text}</a>
+    <a bind:this={self} href={disable ? "" : href} aria-disabled={disable} class="input {BTN_CLASS} {classes}" {autofocus}>{text}</a>
 {:else}
     <!-- svelte-ignore a11y-autofocus -->
     <button
-        class="input"
+        bind:this={self}
+        class="input {BTN_CLASS} {classes}"
         type="button"
         tabindex="0"
         {autofocus}
