@@ -99,6 +99,7 @@
             padding: math.div(input.$paddingVert, 2) math.div(input.$paddingHorz, 2);
             top: h.$padTop + h.$padBot + h.$marBot + 3vh;
             right: h.$padSide;
+            position: absolute;
             z-index: 10;
         }
 

@@ -13,6 +13,8 @@
 </div>
 
 <style lang="scss">
+    @use "../lib/scss/mods/input";
+
     $fsRegular: 8dvh;
     $fsMain: 13dvh;
     $centerOffset: calc($fsRegular * 3);
@@ -22,8 +24,11 @@
         grid-template: (repeat(2, $fsRegular) $fsMain 1fr) / 1fr;
         justify-items: center;
         align-items: center;
-
         padding: 10dvh 0 $gVertPad;
+
+        :global(> .btn) {
+            @include input.botInput;
+        }
     }
 
     h2 {

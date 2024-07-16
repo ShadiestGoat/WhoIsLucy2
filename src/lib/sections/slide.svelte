@@ -14,11 +14,13 @@
 <Btn text={data.slide.nextText} classes="cool-btn" on:submit={() => dispatch('next', null)} />
 
 <style lang="scss">
+    @use "../scss/mods/input";
+
     h2 {
         margin-top: 3vh;
     }
 
     :global(.cool-btn) {
-        bottom: $gVertPad + 15dvh;
+        @include input.botInput
     }
 </style>

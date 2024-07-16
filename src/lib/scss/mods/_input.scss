@@ -16,7 +16,6 @@ $borderColorLight: $gray-7;
     border-radius: 12.25px;
     box-shadow: none;
     cursor: pointer;
-    position: absolute;
     outline: none;
 
     &:hover, &:focus-within {
@@ -25,4 +24,9 @@ $borderColorLight: $gray-7;
         border-color: $borderColorLight;
         background: $borderColor;
     }
+}
+
+@mixin botInput() {
+    position: absolute;
+    bottom: $gVertPad + 15dvh;
 }
