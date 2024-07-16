@@ -3,9 +3,11 @@
 </header>
 
 <style lang="scss">
+    @use "scss/mods/header" as h;
+
     header {
-        padding: 2vh 2vw 1vh;
-        margin-bottom: 2vh;
+        padding: h.$padTop h.$padSide h.$padBot;
+        margin-bottom: h.$marBot;
         align-items: center;
         justify-content: center;
         border-bottom: 2px $gray-8 solid;
