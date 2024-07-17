@@ -5,7 +5,6 @@
 	import Header from "$lib/header.svelte";
 	import Btn from "$lib/btn.svelte";
 	import FinHeader from "$lib/finale/utils/finHeader.svelte";
-	import Markdown from "$lib/md/markdown.svelte";
 	import Faq from "$lib/finale/faq.svelte";
 
     export let data: PageData
