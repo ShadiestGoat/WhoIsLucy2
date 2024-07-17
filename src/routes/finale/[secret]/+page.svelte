@@ -102,14 +102,14 @@
 
         :global(.btn) {
             padding: math.div(input.$paddingVert, 2) math.div(input.$paddingHorz, 2);
-            top: h.$padTop + h.$padBot + h.$marBot + 3vh;
+            top: calc(h.$totalHeight - h.$marBot + 2px);
             right: h.$padSide;
             position: absolute;
             z-index: 10;
         }
 
         :global(.btn-collapse) {
-            top: 3px;
+            top: 4px;
         }
     }
 

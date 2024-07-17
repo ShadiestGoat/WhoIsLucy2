@@ -4,4 +4,4 @@ $padBot:   1dvh;
 $padSide:  2dvw;
 $fontSize: 3dvh;
 
-$totalHeight: $marBot + $fontSize + $padTop * 2;
+$totalHeight: $marBot + $fontSize * 1.1 + $padTop * 2;
