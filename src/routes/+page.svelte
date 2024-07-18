@@ -15,8 +15,8 @@
 <style lang="scss">
     @use "../lib/scss/mods/input";
 
-    $fsRegular: 8dvh;
-    $fsMain: 13dvh;
+    $fsRegular: 8dvw;
+    $fsMain: 13dvw;
     $centerOffset: calc($fsRegular * 3);
 
     .container {
