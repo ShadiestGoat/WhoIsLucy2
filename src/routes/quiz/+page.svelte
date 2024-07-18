@@ -7,7 +7,7 @@
 	import toast from "svelte-french-toast";
 	import { page } from "$app/stores";
 	import { replaceState } from "$app/navigation";
-	import { fly, slide } from "svelte/transition";
+	import { fly } from "svelte/transition";
 
     export let data: PageData
     let section = data.section
