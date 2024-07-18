@@ -6,6 +6,8 @@
 	import Btn from "$lib/btn.svelte";
 	import FinHeader from "$lib/finale/utils/finHeader.svelte";
 	import Faq from "$lib/finale/faq.svelte";
+	import Essay from "$lib/finale/essay.svelte";
+	import { scale } from "svelte/transition";
 
     export let data: PageData
 
@@ -50,7 +52,18 @@
 </div>
 
 <FinHeader hasBoth={hasFAQ && hasEssay} bind:isFAQ={isFAQ} />
-<Faq faq={faq} />
+
+<div class="col content-wrapper">
+    {#key isFAQ}
+        <div transition:scale={{ duration: 400, start: 0.25 }} class="col content">
+            {#if isFAQ}
+                <Faq faq={faq} />
+            {:else}
+                <Essay content={essay} />
+            {/if}
+        </div>
+    {/key}
+</div>
 
 <style lang="scss">
     @use "../../../lib/scss/input.scss" as *;
@@ -63,6 +76,19 @@
     .nobr {
         white-space: nowrap
     }
+
+    .content-wrapper {
+        position: relative;
+        align-items: center;
+    }
+
+    .content {
+        width: $maxWidth;
+        gap: 5dvh;
+        padding-bottom: 10dvh;
+        position: absolute;
+    }
+    
 
     $urlPad: 2dvw;
     $urlWrapperWidth: $maxWidth * 0.75;
