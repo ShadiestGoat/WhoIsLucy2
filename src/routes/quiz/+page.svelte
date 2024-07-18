@@ -67,10 +67,10 @@
     {#key section}
         <div in:fly={{
             duration: 1_000,
-            x: "-100dvw"
+            x: "100dvw"
         }} out:fly={{
             duration: 1_000,
-            x: "100dvw"
+            x: "-100dvw"
         }} class="col section w-100">
             <GenericSection section={section} on:next={next} />
         </div>
