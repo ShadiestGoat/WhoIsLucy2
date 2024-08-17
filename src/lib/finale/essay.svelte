@@ -4,4 +4,12 @@
     export let content: string
 </script>
 
-<Markdown {content} />
+<div class="col">
+    <Markdown {content} />
+</div>
+
+<style lang="scss">
+    div {
+        gap: 0.75rem;
+    }
+</style>
