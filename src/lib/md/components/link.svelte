@@ -6,8 +6,8 @@
     export let title: string | undefined = undefined
 </script>
 
-{#if href.startsWith("https://")}
-    <a {href} {title} target="_blank" on:click={(e) => e.stopPropagation()}><slot /></a>
+{#if href.startsWith("https://") || href.startsWith("#")}
+    <a {href} {title} target={href[0] == "h" ? "_blank" : ""} on:click={(e) => e.stopPropagation()}><slot /></a>
 {:else}
     <Empty>
         {raw}
@@ -22,7 +22,7 @@
     a {
         @include trans.trans;
 
-        color: $blue-4;
+        color: $blue-3;
         position: relative;
         z-index: 99;
 

@@ -1,39 +1,59 @@
 <script lang="ts">
-    import SvelteMarkdown from "svelte-markdown"
-	import Empty from "./components/empty.svelte";
+    import SvelteMarkdown from "svelte-exmarkdown/Markdown.svelte"
+    import Empty from "./components/empty.svelte";
 	import ListItem from "./components/listItem.svelte";
-	import Heading from "./components/heading.svelte";
 	import Link from "./components/link.svelte";
 	import Code from "./components/code.svelte";
 	import Strikethrough from "./components/strikethrough.svelte";
 	import Bold from "./components/bold.svelte";
-	import List from "./components/list.svelte";
+	import Ol from "./components/ol.svelte";
+	import Ul from "./components/ul.svelte";
+	import Blockquote from "./components/blockquote.svelte";
+	import Text from "./components/text.svelte";
+	import Heading from "./components/heading.svelte";
 
     export let content: string
+    $: md = content.split("\n").map((v, i, arr) => {
+        if (v == "") return v + "\n"
+        if (v[0] == ">") return v + "\n> "
+
+        if (v[0] == "#" && i != arr.length - 1) {
+            const next = arr[i + 1]
+
+            if (next != "" && next[0] == '^') {
+                return v
+            }
+        }
+
+        return v + "\n"
+    }).join("\n")
 </script>
 
 <SvelteMarkdown
-    options={{
-        async: true,
-        smartypants: true,
-        gfm: true,
-    }}
-    renderers={{
-        table: Empty,
-        code: Empty,
-        image: Empty,
-        html: Empty,
-        text: Empty,
-        
-        list: List,
-        listitem: ListItem,
+    {md}
+    plugins={[
+        // gfmPlugin(),
+        {
+            renderer: {
+                table: Empty,
+                code: Empty,
+                image: Empty,
+                html: Empty,
+                p: Text,
 
-        heading: Heading,
-        link: Link,
-        codespan: Code,
-        del: Strikethrough,
-        strong: Bold,
-    }}
-    source={content.replace(/\n/g, "\n\n")}
-    isInline={false}
+                ol: Ol,
+                ul: Ul,
+                li: ListItem,
+                blockquote: Blockquote,
+
+                a: Link,
+                codespan: Code,
+                del: Strikethrough,
+                strong: Bold,
+                ...Object.fromEntries(Array(6).fill(6).map((_, i) => {
+                    return [`h${i + 1}`, Heading]
+                }))
+            },
+        }
+    ]}
 />
