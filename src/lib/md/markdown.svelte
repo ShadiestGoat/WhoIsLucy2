@@ -1,5 +1,8 @@
 <script lang="ts">
+    // import { gfmPlugin } from "svelte-exmarkdown/gfm"
 	import { rehypeHeading, remarkPluginHeading } from "./plugins/heading-anchor";
+	import { rehypeBlockquote, remarkPluginBlockquote } from "./plugins/blockquote-admonition";
+
     import SvelteMarkdown from "svelte-exmarkdown/Markdown.svelte"
     import Empty from "./components/empty.svelte";
 	import ListItem from "./components/listItem.svelte";
@@ -58,11 +61,13 @@
             remarkToRehypeOptions: {
                 handlers: {
                     heading: rehypeHeading,
+                    blockquote: rehypeBlockquote
                 }
             },
             remarkPlugin: {
                 plugins: [
                     remarkPluginHeading,
+                    remarkPluginBlockquote,
                 ]
             }
         }
