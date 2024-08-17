@@ -1,12 +1,28 @@
 <script lang="ts">
-  export let depth: number
+	import type { HastNode } from "svelte-exmarkdown";
+	import { getAstNode } from "svelte-exmarkdown/contexts";
 
-  console.log(depth)
+  export let customID = ""
+  export let depth = 1
+  const ast = getAstNode()
 
   $: tag = `h${depth > 5 ? 6 : depth + 1}`
+
+  function getID(h: HastNode): string {
+    if (customID) return customID
+
+    if (!h.children?.length) {
+      return ""
+    }
+    if (h.children[0].type != "text") {
+      return ""
+    }
+
+    return h.children[0].value.replace(/ /g, '-')
+  }
 </script>
 
-<svelte:element this={tag}>
+<svelte:element id={getID($ast)} this={tag}>
     <slot />
 </svelte:element>
 

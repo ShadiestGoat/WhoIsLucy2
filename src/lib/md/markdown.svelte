@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { rehypeHeading, remarkPluginHeading } from "./plugins/heading-anchor";
     import SvelteMarkdown from "svelte-exmarkdown/Markdown.svelte"
     import Empty from "./components/empty.svelte";
 	import ListItem from "./components/listItem.svelte";
@@ -54,6 +55,16 @@
                     return [`h${i + 1}`, Heading]
                 }))
             },
+            remarkToRehypeOptions: {
+                handlers: {
+                    heading: rehypeHeading,
+                }
+            },
+            remarkPlugin: {
+                plugins: [
+                    remarkPluginHeading,
+                ]
+            }
         }
     ]}
 />
